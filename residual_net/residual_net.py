@@ -95,8 +95,9 @@ if __name__ == '__main__':
 
         # Building Residual Network
         net = tflearn.input_data(shape=[None, 256, 256, 3],
-                         data_preprocessing=img_prep,
-                         data_augmentation=img_aug)
+                         #data_preprocessing=img_prep,
+                         #data_augmentation=img_aug)
+								)
         net = tflearn.conv_2d(net, 16, 3, regularizer='L2', weight_decay=0.0001)
         net = tflearn.residual_block(net, n, 16)
         net = tflearn.residual_block(net, 1, 32, downsample=True)
