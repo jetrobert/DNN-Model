@@ -1,0 +1,2 @@
+model_checkpoint_path: "/home/stephen/Desktop/dnn_networks/alexnet/checkpoints/alexnet-2600"
+all_model_checkpoint_paths: "/home/stephen/Desktop/dnn_networks/alexnet/checkpoints/alexnet-2600"

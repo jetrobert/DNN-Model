@@ -110,13 +110,13 @@ if __name__ == '__main__':
         # train
         if not os.path.isdir('checkpoints'):
             os.makedirs('checkpoints')
-        if not os.path.isdir('model'):
-            os.makedirs('model')
+        #if not os.path.isdir('model'):
+            #os.makedirs('model')
 			
         model = tflearn.DNN(network, checkpoint_path='checkpoints/alexnet',
                     max_checkpoints=1, tensorboard_verbose=2)
         model.fit(X, Y, n_epoch=200, validation_set=(testX, testY), shuffle=True,
                   show_metric=True, batch_size=64, snapshot_step=100,
                   snapshot_epoch=False, run_id='alexnet')
-        model.save('model/model_retrained_by_alexnet')
+        #model.save('model/model_retrained_by_alexnet')
         			   

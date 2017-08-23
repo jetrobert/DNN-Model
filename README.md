@@ -18,5 +18,16 @@ LeNet Train and Test:
 AlexNet Train and Test:
         alexnet.py
 
+GoogLeNet Train and Test:
+        googlenet.py
+
+VGG Train and Test:
+        vgg16.py
+
+ResNet Train and Test:
+        inceptiion_resnet_v2.py
+
+ResidualNet Train and Test:
+        residual_net.py
 
 

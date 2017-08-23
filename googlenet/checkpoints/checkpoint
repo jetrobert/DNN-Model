@@ -1,0 +1,2 @@
+model_checkpoint_path: "/mnt/03_/task/05_dnn_model/googlenet/checkpoints/googlenet-1400"
+all_model_checkpoint_paths: "/mnt/03_/task/05_dnn_model/googlenet/checkpoints/googlenet-1400"

@@ -6,11 +6,10 @@ import tensorflow as tf
 import tflearn
 from tflearn.layers.core import input_data, dropout, fully_connected
 from tflearn.layers.conv import conv_2d, max_pool_2d
-from tflearn.layers.normalization import local_response_normalization
 from tflearn.layers.estimator import regression
 
-
-os.environ["CUDA_VISIBLE_DEVICES"] = "1"
+# gpu config
+os.environ["CUDA_VISIBLE_DEVICES"] = "0, 1"
 gpu_options = tf.GPUOptions(per_process_gpu_memory_fraction = 0.4)
 config = tf.ConfigProto(gpu_options=gpu_options)
 
@@ -86,30 +85,53 @@ if __name__ == '__main__':
         print(X.shape, testX.shape, Y.shape, testY.shape)
 		
 		
-        # build lenet network
+        # Building VGG-16 Network
         network = input_data(shape=[None, 256, 256, 3])
-        network = conv_2d(network, 4, 5, strides=1, activation='tanh')
-        network = max_pool_2d(network, 2, strides=1)
-        network = local_response_normalization(network)
-        network = conv_2d(network, 6, 5, strides=4, activation='tanh')
-        network = max_pool_2d(network, 2, strides=1)
-        network = local_response_normalization(network)    
-        network = fully_connected(network, 1024, activation='tanh')
+
+        network = conv_2d(network, 64, 3, activation='relu')
+        network = conv_2d(network, 64, 3, activation='relu')
+        network = max_pool_2d(network, 2, strides=2)
+
+        network = conv_2d(network, 128, 3, activation='relu')
+        network = conv_2d(network, 128, 3, activation='relu')
+        network = max_pool_2d(network, 2, strides=2)
+
+        network = conv_2d(network, 256, 3, activation='relu')
+        network = conv_2d(network, 256, 3, activation='relu')
+        network = conv_2d(network, 256, 3, activation='relu')
+        network = max_pool_2d(network, 2, strides=2)
+
+        network = conv_2d(network, 512, 3, activation='relu')
+        network = conv_2d(network, 512, 3, activation='relu')
+        network = conv_2d(network, 512, 3, activation='relu')
+        network = max_pool_2d(network, 2, strides=2)
+
+        network = conv_2d(network, 512, 3, activation='relu')
+        network = conv_2d(network, 512, 3, activation='relu')
+        network = conv_2d(network, 512, 3, activation='relu')
+        network = max_pool_2d(network, 2, strides=2)
+
+        network = fully_connected(network, 4096, activation='relu')
+        network = dropout(network, 0.5)
+        network = fully_connected(network, 4096, activation='relu')
         network = dropout(network, 0.5)
         network = fully_connected(network, 3, activation='softmax')
-        network = regression(network, optimizer='Adagrad',
-                  loss='categorical_crossentropy', learning_rate=0.1)
+
+        network = regression(network, optimizer='rmsprop',
+                     loss='categorical_crossentropy',
+                     learning_rate=0.0001)
 		
-        # train
+        # training 
         if not os.path.isdir('checkpoints'):
             os.makedirs('checkpoints')
         #if not os.path.isdir('model'):
             #os.makedirs('model')
-			
-        model = tflearn.DNN(network, checkpoint_path='checkpoints/lenet',
-                    max_checkpoints=1, tensorboard_verbose=1)
+		
+        model = tflearn.DNN(network, checkpoint_path='checkpoints/imagenet_vgg16',
+                    max_checkpoints=10, tensorboard_verbose=0)
+					
         model.fit(X, Y, n_epoch=200, validation_set=(testX, testY), shuffle=True,
                   show_metric=True, batch_size=64, snapshot_step=200,
-                  snapshot_epoch=False, run_id='lenet')
-        #model.save('model/model_retrained_by_lenet')
-        			   
+                  snapshot_epoch=False, run_id='vgg16')
+		  
+        #model.save('model/model_retrained_by_vgg16')

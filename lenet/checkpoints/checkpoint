@@ -1,0 +1,2 @@
+model_checkpoint_path: "/mnt/03_/task/05_dnn_model/lenet/checkpoints/lenet-3200"
+all_model_checkpoint_paths: "/mnt/03_/task/05_dnn_model/lenet/checkpoints/lenet-3200"
