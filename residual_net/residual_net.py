@@ -119,7 +119,7 @@ if __name__ == '__main__':
             #os.makedirs('model')
 		
         model = tflearn.DNN(net, checkpoint_path='checkpoints/resnet',
-                    max_checkpoints=10, tensorboard_verbose=0, clip_gradients=0.)
+                    max_checkpoints=1, tensorboard_verbose=0, clip_gradients=0.)
 
         model.fit(X, Y, n_epoch=200, validation_set=(testX, testY),
           snapshot_epoch=False, snapshot_step=200, show_metric=True, 

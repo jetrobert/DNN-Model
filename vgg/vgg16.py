@@ -128,7 +128,7 @@ if __name__ == '__main__':
             #os.makedirs('model')
 		
         model = tflearn.DNN(network, checkpoint_path='checkpoints/imagenet_vgg16',
-                    max_checkpoints=10, tensorboard_verbose=0)
+                    max_checkpoints=1, tensorboard_verbose=0)
 					
         model.fit(X, Y, n_epoch=200, validation_set=(testX, testY), shuffle=True,
                   show_metric=True, batch_size=64, snapshot_step=200,
